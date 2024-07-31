@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>to do list</title>
+    <style>
+        .container
+        {
+           display: flex;
+           justify-content: center;
+           margin-top: 30px;
+        }
+        .task-lists
+        {
+            background-color:aliceblue;
+            color:black;
+            font-family:Helvetica, sans-serif;
+            width:100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap:10px;
+        }
+        .task
+        {
+            display:flex;
+            justify-content: space-between;
+            border:1px solid blue;
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+       <div class="form">
+        <label for="task">Enter Task:-</label>
+        <input type="text" name="t1" id="task-content">
+        <input type="button" value="Add" id="AddBtn">
+        <div class="tasks" id="task-container">
+            <ul id="task-list" class="task-lists">
+                <!-- <li class="task">
+                    <span style='flex-grow:1;'>chapter 1</span>
+                        <button id="editbtn" onclick="editTask(this)">Edit</button>
+                        <button id="removeBtn" onclick="removeTask(this)">Remove</button>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+ let addButton = document.getElementById('AddBtn');
+ let content = document.getElementById('task-content');
+ let Parentlist = document.getElementById('task-list');
+ let taskcontainer = document.getElementById('task-container');
+ let newLi = document.createElement('li');
+ let myform = document.getElementById('myform');
+
+
+ addButton.addEventListener('click', addTask);
+
+ function addTask(event)
+ {
+    if(Parentlist.children.length != 0)
+    {
+        if(Parentlist.children[0].className == "emptymsg")
+        {
+            Parentlist.children[0].remove();
+        }
+    }
+    /*let text = form1.t1.value;*/
+    let currentBtn = event.currentTarget;
+    /*console.log(currentBtn);*/
+    let currentInput = currentBtn.previousElementSibling;
+    /*console.log(currentInput);*/
+    let currentTask = currentInput.value;
+    /*console.log(text);*/
+    let newLi = document.createElement('li');
+    newLi.style.listStyleType = 'none';
+    newLi.innerHTML = `<span style='flex-grow:1;'>${currentTask}</span>
+                        <button id="editbtn" onclick="editTask(this)">Edit</button>
+                        <button id="removeBtn" onclick="removeTask(this)">Remove</button>`
+    newLi.classList.add("task");
+    Parentlist.appendChild(newLi);
+    Parentlist.classList.add("task-lists");
+ }
+
+ function removeTask(currElement)
+ {  
+    let Parentlist = document.getElementById('task-list');
+    console.log(Parentlist.children.length);
+     if(Parentlist.children.length <= 1)
+     {
+        let msg = document.createElement('h3');
+        msg.textContent = "no task here please add some task";
+        msg.classList.add("emptymsg");
+        Parentlist.appendChild(msg);
+     }
+    currElement.parentElement.remove();
+ }
+
+ function editTask(currElement)
+ {
+    if(currElement.textContent === "Edit")
+    {
+     currElement.textContent = "done";
+    let inputText = currElement.previousElementSibling.textContent;
+    console.log(inputText);
+    console.log(currElement.parentElement);
+    let ParentElement = currElement.parentElement;
+    let input = document.createElement('input');
+    input.type = "text";
+    input.placeholder = "Task Name";
+    ParentElement.replaceChild(input,currElement.previousElementSibling);
+    }
+    else
+    {
+       let inputText = currElement.previousElementSibling.value;
+       let textToPut = inputText;
+       console.log(textToPut);
+       let newTaskName = document.createElement('span');
+       newTaskName.textContent = textToPut;
+       newTaskName.style.flexGrow = 1;
+       let ParentElement = currElement.parentElement;
+       ParentElement.replaceChild(newTaskName,currElement.previousElementSibling);
+    }
+ }
+
+
+ /*addButton.addEventListener('click', addTask);*/
+
+ 
+
+ /* function addTask(e)
+ {
+   let newLi = document.createElement('li');
+   newLi.innerHTML = "<h2>"+
+
+ } */
+
+</script>  
+</body>
+</html>
